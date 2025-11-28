@@ -126,7 +126,7 @@ cat utilitasini ishlab chiqishingiz kerak:
 
 grep utilitasini ishlab chiqishingiz kerak:
 - Quyidagi bayroqlar qo'llab-quvvatlanishi: `-e` `-i` `-v` `-c` `-I` `-n`
-- Muntazam ifodalar uchun faqat pcre yoki regex kutubxonalaridan foydalanishingiz mumkin.
+- Muntazam ifodalar uchun faqat pcre2 yoki regex kutubxonalaridan foydalanishingiz mumkin.
 - Boshlang’ich, sarlavha va make fayllari src/grep/ direktoriyasida joylashgan bo'lishi kerak.
 - Yakuniy bajariladigan fayl src/grep/ direktoriyasida joylashgan bo'lishi va s21_grep deb nomlanishi kerak.
 
@@ -134,7 +134,7 @@ grep utilitasini ishlab chiqishingiz kerak:
 
 Bu esa qo'shimcha ball uchun majburiy bo’lmagan topshiriq: grep utilitasini ishlab chiqing:
 - Barcha bayroqlar qo'llab-quvvatlanishi, shu jumladan: `-h` `-s` `-f` `-o`
-- Muntazam ifodalar uchun faqat pcre yoki regex kutubxonalaridan foydalanishingiz mumkin.
+- Muntazam ifodalar uchun faqat pcre2 yoki regex kutubxonalaridan foydalanishingiz mumkin.
 - Boshlang’ich, sarlavha va make fayllari src/grep/ direktoriyasida joylashgan bo'lishi kerak.
 - Yakuniy bajariladigan fayl src/grep/ direktoriyasida joylashgan bo'lishi va s21_grep deb nomlanishi kerak.
 
@@ -142,6 +142,6 @@ Bu esa qo'shimcha ball uchun majburiy bo’lmagan topshiriq: grep utilitasini is
 
 Bu esa qo'shimcha ball uchun majburiy bo’lmagan topshiriq: grep utilitasini ishlab chiqing:
 - Barcha bayroqlar qo'llab-quvvatlanishi, shu jumladan ularning juft kombinatsiyalari ham (masalan, `-iv` `-in`).
-- Muntazam ifodalar uchun faqat pcre yoki regex kutubxonalaridan foydalanishingiz mumkin.
+- Muntazam ifodalar uchun faqat pcre2 yoki regex kutubxonalaridan foydalanishingiz mumkin.
 - Boshlang’ich, sarlavha va make fayllari src/grep/ direktoriyasida joylashgan bo'lishi kerak.
 - Yakuniy bajariladigan fayl src/grep/ direktoriyasida joylashgan bo'lishi va s21_grep deb nomlanishi kerak.
