@@ -67,7 +67,7 @@ cat – Unix-ga o'xshash operatsion tizimlarda eng ko'p ishlatiladigan buyruqlar
 | № | Opsiyalar | Tavsif |
 | ------ | ------ | ------ |
 | 1 | -b (GNU: --number-nonblank) | faqat bo'sh bo'lmagan satrlarni raqamlaydi |
-| 2 | -e taxmin qiladi va -v (GNU only: -E ham xuddi shunday, lekin -v ishlatmaydi) | shuningdek, satr oxiridagi belgilarini $ sifatida aks ettiradi  |
+| 2 | -e (-v ni o‘z ichiga oladi), -E (GNU only: -v siz) | satr oxirida `$` qo‘yadi (`\r\n` bo‘lsa `^M$` ko‘rsatadi) |
 | 3 | -n (GNU: --number) | barcha chiqish satrlarini raqamlaydi |
 | 4 | -s (GNU: --squeeze-blank) | bir nechta yonma-yon bo'sh qatorlarni siqadi |
 | 5 | -t taxmin qiladi va -v (GNU: -T ham xuddi shunday, lekin -v ishlatmaydi)  | shuningdek, tablarni ^I sifatida ham aks ettiradi |
