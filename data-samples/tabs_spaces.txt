@@ -1,0 +1,4 @@
+Column1	Column2	Column3
+	Value with leading tab
+Text with spaces    
+End

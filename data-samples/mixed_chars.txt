@@ -1,0 +1,4 @@
+Normal line
+Line with CR
+Next text
+Line with BELend
