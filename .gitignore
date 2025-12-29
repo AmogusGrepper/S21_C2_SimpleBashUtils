@@ -35,6 +35,10 @@
 *.x86_64
 *.hex
 
+# Our executables
+s21_cat
+s21_grep
+
 # Debug files
 *.dSYM/
 *.su
