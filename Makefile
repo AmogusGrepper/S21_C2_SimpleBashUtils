@@ -4,7 +4,7 @@ CFLAGS=-Wall -Werror -Wextra -O2 -g --std=gnu11
 COMMON_SOURCE=src/common/file_utils.c
 COMMON_OBJECTIVE=$(COMMON_SOURCE:.c=.o)
 
-CAT_SOURCE=src/cat/s21_cat.c
+CAT_SOURCE=src/cat/s21_cat.c src/cat/command_parse.c
 CAT_OBJECTIVE=$(CAT_SOURCE:.c=.o)
 CAT_EXECUTABLE=s21_cat
 
