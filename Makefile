@@ -10,9 +10,9 @@ CAT_EXECUTABLE=s21_cat
 
 GREP_SOURCE=src/grep/s21_grep.c
 GREP_OBJECTIVE=$(GREP_SOURCE:.c=.o)
-GREP_EXECUTABLE=.s21_grep
+GREP_EXECUTABLE=s21_grep
 
-all: s21_cat s21_grep
+all: $(CAT_EXECUTABLE) $(GREP_EXECUTABLE)
 
 # ==== DEFAULT ====
 %.o: %.c
