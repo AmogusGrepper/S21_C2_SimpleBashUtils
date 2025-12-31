@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -O2 -g --std=gnu11
 
-COMMON_SOURCE=src/common/file_utils.c
+COMMON_SOURCE=src/common/file_reader.c
 COMMON_OBJECTIVE=$(COMMON_SOURCE:.c=.o)
 
-CAT_SOURCE=src/cat/s21_cat.c src/cat/command_parse.c
+CAT_SOURCE=src/cat/main.c src/cat/parse.c src/cat/process.c
 CAT_OBJECTIVE=$(CAT_SOURCE:.c=.o)
 CAT_EXECUTABLE=s21_cat
 

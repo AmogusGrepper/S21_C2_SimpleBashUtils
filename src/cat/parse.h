@@ -1,5 +1,5 @@
-#ifndef COMMAND_PARSE_CAT
-#define COMMAND_PARSE_CAT
+#ifndef CAT_PARSE_H_
+#define CAT_PARSE_H_
 
 #include <getopt.h>
 #include <stdbool.h>

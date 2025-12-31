@@ -1,4 +1,4 @@
-#include "command_parse.h"
+#include "parse.h"
 
 #include <getopt.h>
 #include <stdio.h>

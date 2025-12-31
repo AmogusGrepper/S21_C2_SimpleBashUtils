@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "command_parse.h"
+#include "parse.h"
 
 int main(int argc, char* const* argv) {
   CatFlags flags = parse_flags(&argc, argv);
