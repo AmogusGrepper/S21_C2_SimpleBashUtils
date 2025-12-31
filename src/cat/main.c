@@ -1,14 +1,10 @@
 #include <stdio.h>
 
 #include "parse.h"
+#include "process.h"
 
 int main(int argc, char* const* argv) {
   CatFlags flags = parse_flags(&argc, argv);
 
-  putchar(flags.b);
-  for (; optind < argc; ++optind) {
-    printf("%s\n", argv[optind]);
-  }
-
-  return 0;
+  return run_cat(&flags, argv + optind, argc - optind);
 }
