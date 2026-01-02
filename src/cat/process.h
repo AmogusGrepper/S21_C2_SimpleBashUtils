@@ -17,6 +17,5 @@ typedef struct {
 } CatState;
 
 extern int run_cat(CatFlags* flags, char* const* filenames, int files_amount);
-extern void format_line(FileContext* ctx, CatState* state);
 
 #endif

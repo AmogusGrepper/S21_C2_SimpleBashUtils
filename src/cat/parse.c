@@ -16,8 +16,6 @@ CatFlags parse_flags(int* argc, char* const* argv) {
 
   while ((opt = getopt_long(*argc, argv, short_options, long_options, 0)) !=
          -1) {
-    putchar(opt);
-
     switch (opt) {
       case 'b':
         flags.b = true;
@@ -40,7 +38,6 @@ CatFlags parse_flags(int* argc, char* const* argv) {
         break;
 
       default:
-        printf("def - %s\n", argv[optind]);
         break;
     }
   }

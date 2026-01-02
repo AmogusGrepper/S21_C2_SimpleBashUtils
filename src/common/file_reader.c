@@ -18,8 +18,9 @@ Return values:
    0: End of file reached
   >1: Succesfully readed
 */
-int read_line(FileContext* ctx, char** line, size_t* cap) {
-  ssize_t char_readed = getline(line, cap, ctx->fptr);
+int read_line(FileContext* ctx, char** line) {
+  size_t cap = 0;
+  ssize_t char_readed = getline(line, &cap, ctx->fptr);
   if (char_readed == -1) {
     if (feof(ctx->fptr)) {
       return 0;

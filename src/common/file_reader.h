@@ -9,7 +9,7 @@ typedef struct {
 } FileContext;
 
 extern int open_file(FileContext* ctx, const char* filename);
-extern int read_line(FileContext* ctx, char** line, size_t* cap);
+extern int read_line(FileContext* ctx, char** line);
 extern int close_file(FileContext* ctx);
 
 #endif
