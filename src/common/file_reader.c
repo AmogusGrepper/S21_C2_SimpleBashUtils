@@ -12,12 +12,6 @@ int open_file(FileContext* ctx, const char* filename) {
   return 0;
 }
 
-/*
-Return values:
-  -1: Error occured while reading
-   0: End of file reached
-  >1: Succesfully readed
-*/
 int read_line(FileContext* ctx, char** line) {
   size_t cap = 0;
   ssize_t char_readed = getline(line, &cap, ctx->fptr);

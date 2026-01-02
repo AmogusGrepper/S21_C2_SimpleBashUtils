@@ -1,7 +1,8 @@
 #include "parse.h"
 
 #include <getopt.h>
-#include <stdio.h>
+
+#include "../common/error.h"
 
 const char* short_options = "benst";
 const struct option long_options[] = {
@@ -38,6 +39,7 @@ CatFlags parse_flags(int* argc, char* const* argv) {
         break;
 
       default:
+        print_usage_error("parse_flags", "Unknown flag");
         break;
     }
   }

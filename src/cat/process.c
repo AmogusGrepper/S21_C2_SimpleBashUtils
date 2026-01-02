@@ -72,6 +72,7 @@ static void print_formated_line(CatState* state) {
     state->prev_empty = false;
   }
 
+  // line counter
   state->line_counter++;
   if (!is_empty) {
     state->nonblank_counter++;
@@ -90,9 +91,9 @@ static void print_formated_line(CatState* state) {
   for (int i = 0; state->line[i]; ++i) {
     char ch = state->line[i];
     if (flag_e && ch == '\n') {
-      printf("$\n");
+      puts("$\n");
     } else if (flag_t && ch == '\t') {
-      printf("^I");
+      puts("^I");
     } else if (flag_e || flag_t) {
       print_visible_char_form(ch);
     } else {

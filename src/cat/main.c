@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "parse.h"
 #include "process.h"
 
