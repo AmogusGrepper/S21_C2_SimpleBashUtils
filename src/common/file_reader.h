@@ -6,7 +6,6 @@
 typedef struct {
   FILE* fptr;
   const char* filename;
-  size_t line_counter;
 } FileContext;
 
 extern int open_file(FileContext* ctx, const char* filename);

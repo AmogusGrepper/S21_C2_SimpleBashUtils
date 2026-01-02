@@ -28,7 +28,6 @@ int read_line(FileContext* ctx, char** line, size_t* cap) {
       return -1;
     }
   }
-  ctx->line_counter++;
   return 1;
 }
 
