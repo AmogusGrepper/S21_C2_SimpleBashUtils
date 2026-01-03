@@ -1,0 +1,15 @@
+part 2:
+
+-e PATTERNS: use this pattern
+
+-i: ignore case of pattern
+
+-v: select not-matching lines
+
+-c: suppress output and count lines
+
+-l: suppress output and print files amount that matched
+
+-n: print line with line index
+
+if more than one file add filename before
