@@ -91,7 +91,7 @@ static void print_formated_line(CatState* state) {
   for (int i = 0; state->line[i]; ++i) {
     char ch = state->line[i];
     if (flag_e && ch == '\n') {
-      puts("$\n");
+      puts("$");
     } else if (flag_t && ch == '\t') {
       puts("^I");
     } else if (flag_e || flag_t) {
@@ -115,15 +115,18 @@ static void print_control_char_form(const unsigned char ch) {
 
 /* Printing all chars in there visible form */
 static void print_visible_char_form(const unsigned char ch) {
-  print_control_char_form(ch);
   if (ch >= 128) {
     putchar('M');
     putchar('-');
-    print_control_char_form(ch - 128);
-    if (ch - 128 >= 128) {
-      putchar(ch - 128);
+    const unsigned char low = ch - 128;
+    print_control_char_form(low);
+    if (low >= 32 && low < 127) {
+      putchar(low);
     }
   } else {
-    putchar(ch);
+    print_control_char_form(ch);
+    if (ch >= 32 && ch < 127) {
+      putchar(ch);
+    }
   }
 }
