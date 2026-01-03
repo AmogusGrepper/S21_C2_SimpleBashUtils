@@ -11,7 +11,7 @@ const struct option long_options[] = {
     {"t", no_argument, 0, 't'}, {0, 0, 0, 0},
 };
 
-CatFlags parse_flags(int* argc, char* const* argv) {
+CatFlags parse_cat_flags(int* argc, char* const* argv) {
   CatFlags flags = {};
   int opt = 0;
 
@@ -39,10 +39,10 @@ CatFlags parse_flags(int* argc, char* const* argv) {
         break;
 
       default:
-        print_usage_error("parse_flags", "Unknown flag");
+        print_usage_error("parse_cat_flags", "Unknown flag");
         break;
     }
   }
 
   return flags;
-};
+}

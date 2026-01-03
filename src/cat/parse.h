@@ -12,9 +12,9 @@ typedef struct {
   bool t;
 } CatFlags;
 
-extern const char* short_options;
-extern const struct option long_options[];
+extern const char* short_cat_options;
+extern const struct option long_cat_options[];
 
-extern CatFlags parse_flags(int* argc, char* const* argv);
+extern CatFlags parse_cat_flags(int* argc, char* const* argv);
 
 #endif
