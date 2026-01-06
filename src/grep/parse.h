@@ -3,6 +3,7 @@
 
 #include <getopt.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef struct {
   bool e;
@@ -13,9 +14,18 @@ typedef struct {
   bool n;
 } GrepFlags;
 
+typedef struct {
+  GrepFlags* flags;
+
+  const char** patterns;
+  size_t patterns_amount;
+
+  int first_file_index;
+} GrepParseResult;
+
 extern const char* short_grep_options;
 extern const struct option long_grep_options;
 
-extern GrepFlags parse_grep_flags(int* argc, char* const* argv);
+extern GrepParseResult parse_grep_flags(int* argc, char* const* argv);
 
 #endif

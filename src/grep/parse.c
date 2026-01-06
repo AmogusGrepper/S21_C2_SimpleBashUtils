@@ -1,50 +1,53 @@
 #include "parse.h"
 
-#include <bits/getopt_ext.h>
 #include <getopt.h>
+#include <stdlib.h>
 
 #include "../common/error.h"
 
-const char* short_options = "eivcln";
+const char* short_options = "e:ivcln";
 const struct option long_options[] = {
-    {"e", no_argument, 0, 'e'},
-    {"i", no_argument, 0, 'i'},
-    {"v", no_argument, 0, 'v'},
-    {"c", no_argument, 0, 'c'},
-    {"l", no_argument, 0, 'l'},
-    {"n", no_argument, 0, 'n'},
+    {"regexp", required_argument, 0, 'e'},
+    {"ignore-case", no_argument, 0, 'i'},
+    {"invert-match", no_argument, 0, 'v'},
+    {"count", no_argument, 0, 'c'},
+    {"files-with-matches", no_argument, 0, 'l'},
+    {"line-number", no_argument, 0, 'n'},
     {0, 0, 0, 0},
 };
 
-GrepFlags parse_grep_flags(int* argc, char* const* argv) {
-  GrepFlags flags = {};
+GrepParseResult parse_grep_flags(int* argc, char* const* argv) {
+  GrepParseResult result = {};
   int opt = 0;
 
   while ((opt = getopt_long(*argc, argv, short_options, long_options, 0)) !=
          -1) {
     switch (opt) {
       case 'e':
-        flags.e = true;
+        result.flags->e = true;
+        result.patterns = realloc(result.patterns,
+                                  sizeof(char*) * (result.patterns_amount + 1));
+        result.patterns[result.patterns_amount++] = optarg;
         break;
 
       case 'i':
-        flags.i = true;
+        result.flags->i = true;
         break;
 
       case 'v':
-        flags.v = true;
+        result.flags->v = true;
         break;
 
       case 'c':
-        flags.c = true;
+        result.flags->c = true;
         break;
 
       case 'l':
-        flags.l = true;
+        result.flags->l = true;
         break;
 
       case 'n':
-        flags.n = true;
+        result.flags->n = true;
         break;
 
       default:
@@ -53,5 +56,16 @@ GrepFlags parse_grep_flags(int* argc, char* const* argv) {
     }
   }
 
-  return flags;
+  if (result.patterns_amount == 0) {
+    if (optind >= *argc) {
+      print_usage_error("parse_grep_flags", "Missing PATTERN");
+    }
+    result.patterns = malloc(sizeof(char*));
+    result.patterns[0] = argv[optind++];
+    result.patterns_amount = 1;
+  }
+
+  result.first_file_index = optind;
+
+  return result;
 }
