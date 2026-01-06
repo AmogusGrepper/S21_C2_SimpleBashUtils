@@ -13,7 +13,7 @@ typedef struct {
   const char* line;
 
   const char** patterns;
-  size_t patterns_amount;
+  const size_t patterns_amount;
 
   size_t files_matched_counter;
   size_t lines_matched_counter;

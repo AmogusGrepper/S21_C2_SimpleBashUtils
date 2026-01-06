@@ -16,17 +16,18 @@ const struct option long_options[] = {
     {0, 0, 0, 0},
 };
 
-GrepParseResult parse_grep_flags(int* argc, char* const* argv) {
-  GrepParseResult result = {};
+GrepParseResult parse_grep_flags(int* argc, char* const* argv, GrepFlags* flags) {
+  GrepParseResult result = {.flags=flags};
+  
   int opt = 0;
 
   while ((opt = getopt_long(*argc, argv, short_options, long_options, 0)) !=
          -1) {
     switch (opt) {
       case 'e':
-        result.flags->e = true;
-        result.patterns = realloc(result.patterns,
-                                  sizeof(char*) * (result.patterns_amount + 1));
+      result.flags->e = true;
+      result.patterns = realloc(result.patterns,
+                                sizeof(char*) * (result.patterns_amount + 1));
         result.patterns[result.patterns_amount++] = optarg;
         break;
 
