@@ -14,14 +14,16 @@ const char* combine_patterns(const char** patterns,
   size_t final_pattern_length =
       count_lines_length(patterns, patterns_amount) + patterns_amount * 3 + 1;
   char* final_pattern = (char*)malloc(sizeof(char) * final_pattern_length);
-  (final_pattern)[0] = '\0';
+  if (final_pattern == NULL) {
+    print_usage_error("combine_patterns", "Error during memory allocation");
+    return NULL;
+  }
 
+  char* pos = final_pattern;
   for (size_t i = 0; i < patterns_amount; ++i) {
-    strcat(final_pattern, "(");
-    strcat(final_pattern, patterns[i]);
-    strcat(final_pattern, ")");
+    pos += sprintf(pos, "(%s)", patterns[i]);
     if (i < patterns_amount - 1) {
-      strcat(final_pattern, "|");
+      pos += sprintf(pos, "|");
     }
   }
 
@@ -38,7 +40,7 @@ int compile_regex(RegexState* regex_state) {
                        regex_state->regex_flags);
   if (result != 0) {
     print_usage_error("compile_regex", "Error compiling regex");
-    return 1;
+    return result;
   }
 
   return 0;
