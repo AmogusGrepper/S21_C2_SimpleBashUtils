@@ -1,14 +1,14 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -O2 -g --std=gnu11
 
-COMMON_SOURCE=src/common/file_reader.c src/common/utils.c
+COMMON_SOURCE=../common/file_reader.c ../common/utils.c
 COMMON_OBJECTIVE=$(COMMON_SOURCE:.c=.o)
 
-CAT_SOURCE=src/cat/main.c src/cat/parse.c src/cat/process.c
+CAT_SOURCE=main.c parse.c process.c
 CAT_OBJECTIVE=$(CAT_SOURCE:.c=.o)
 CAT_EXECUTABLE=s21_cat
 
-GREP_SOURCE=src/grep/main.c src/grep/parse.c src/grep/process.c
+GREP_SOURCE=main.c parse.c process.c regex.c output.c
 GREP_OBJECTIVE=$(GREP_SOURCE:.c=.o)
 GREP_EXECUTABLE=s21_grep
 

@@ -4,6 +4,7 @@
 
 #include "../common/error.h"
 #include "../common/file_reader.h"
+#include "output.h"
 #include "regex.h"
 
 int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
@@ -13,10 +14,9 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
       .flags = flags,
       .file_ctx = &file_context,
       .pattern = pattern,
-      .files_matched_counter = 0,
       .lines_matched_counter = 0,
-      .total_files = 0,
-      .total_lines = 0,
+      .line_counter = 1,
+      .total_files = files_amount,
   };
 
   regex_t regex = {};
@@ -33,6 +33,12 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
   }
 
   for (int file_index = 0; file_index < files_amount; ++file_index) {
+    // state clear
+    state.line = NULL;
+    regex_state.line = NULL;
+    state.line_counter = 1;
+    state.lines_matched_counter = 0;
+
     // open file
     const char* filename = filenames[file_index];
     if (open_file(state.file_ctx, filename)) {
@@ -47,20 +53,22 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
       state.line = line;
       regex_state.line = &state.line;
 
-      if (execute_regex(&regex_state)) {
-        puts(line);
+      int exec_result = execute_regex(&regex_state);
+      if (exec_result) {
+        state.lines_matched_counter++;
+        output_line_result(&state);
       }
-      // print_grep_state(&state);
+      state.line_counter++;
     }
     if (read_line_result < 0) {
       print_file_error("run_grep", filename);
       return 3;
     }
 
+    output_file_result(&state);
+
     // clear
     free(line);
-    state.line = NULL;
-    regex_state.line = NULL;
     if (close_file(state.file_ctx)) {
       print_file_error("run_grep", filename);
       return 4;
