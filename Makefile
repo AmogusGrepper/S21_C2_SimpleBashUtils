@@ -8,7 +8,7 @@ CAT_SOURCE=src/cat/main.c src/cat/parse.c src/cat/process.c
 CAT_OBJECTIVE=$(CAT_SOURCE:.c=.o)
 CAT_EXECUTABLE=s21_cat
 
-GREP_SOURCE=src/grep/main.c src/grep/parse.c src/grep/process.c
+GREP_SOURCE=src/grep/main.c src/grep/parse.c src/grep/process.c src/grep/regex.c
 GREP_OBJECTIVE=$(GREP_SOURCE:.c=.o)
 GREP_EXECUTABLE=s21_grep
 
