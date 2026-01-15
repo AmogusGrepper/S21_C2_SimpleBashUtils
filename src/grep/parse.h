@@ -24,6 +24,7 @@ typedef struct {
 extern const char* short_grep_options;
 extern const struct option long_grep_options[];
 
-extern GrepParseResult parse_grep_flags(int* argc, char* const* argv, GrepFlags* flags);
+extern GrepParseResult parse_grep_flags(int* argc, char* const* argv,
+                                        GrepFlags* flags);
 
 #endif

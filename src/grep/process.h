@@ -16,11 +16,11 @@ typedef struct {
 
   size_t lines_matched_counter;
   size_t line_counter;
-  
+
   size_t total_files;
 } GrepState;
 
-extern int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
-                    int files_amount);
+extern int run_grep(GrepFlags* flags, const char* pattern,
+                    char* const* filenames, int files_amount);
 
 #endif

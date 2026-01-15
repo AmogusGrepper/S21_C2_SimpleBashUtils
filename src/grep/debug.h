@@ -18,7 +18,7 @@ static void print_grep_flags(GrepFlags* flags) {
 }
 
 static void print_grep_patterns(const char** patterns,
-                           const size_t patterns_amount) {
+                                const size_t patterns_amount) {
   if (!patterns) {
     printf("patterns: (null)\n");
     return;

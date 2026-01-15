@@ -12,6 +12,14 @@ GREP_SOURCE=src/grep/main.c src/grep/parse.c src/grep/process.c src/grep/regex.c
 GREP_OBJECTIVE=$(GREP_SOURCE:.c=.o)
 GREP_EXECUTABLE=s21_grep
 
+ALL_SOURCE=$(CAT_SOURCE) $(GREP_SOURCE) $(COMMON_SOURCE)
+
+# tools variables
+FORMATER=clang-format
+
+LEAK_CHECKER=valgrind
+LEAK_CHECKER_FLAGS=--leak-check=full --show-leak-kinds=all --track-origins=yes --verbose
+
 all: $(CAT_EXECUTABLE) $(GREP_EXECUTABLE)
 
 # ==== DEFAULT ====
@@ -35,4 +43,20 @@ clean_grep:
 
 clean_all: clean_cat clean_grep
 	rm -rf $(COMMON_OBJECTIVE)
+
+# rebuild
+rebuild: clean_all all
+
+# tools
+style:
+	$(FORMATER) -n ./*.c ./*.h
+
+format:
+	$(FORMATER) -i ./*.c ./*.h 
+
+leak_check_cat: $(CAT_EXECUTABLE)
+	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(CAT_EXECUTABLE) -e "a" data-samples/*.txt
+
+leak_check_grep: $(GREP_EXECUTABLE)
+	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(GREP_EXECUTABLE) -e "a" data-samples/*.txt
 

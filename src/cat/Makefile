@@ -8,11 +8,17 @@ CAT_SOURCE=main.c parse.c process.c
 CAT_OBJECTIVE=$(CAT_SOURCE:.c=.o)
 CAT_EXECUTABLE=s21_cat
 
-GREP_SOURCE=main.c parse.c process.c regex.c output.c
-GREP_OBJECTIVE=$(GREP_SOURCE:.c=.o)
-GREP_EXECUTABLE=s21_grep
+ALL_SOURCE=$(CAT_SOURCE) $(COMMON_SOURCE)
 
-all: $(CAT_EXECUTABLE) $(GREP_EXECUTABLE)
+TEST_FILES=../../data-samples/*.txt
+
+# tools variables
+FORMATER=clang-format
+
+LEAK_CHECKER=valgrind
+LEAK_CHECKER_FLAGS=--leak-check=full --show-leak-kinds=all --track-origins=yes
+
+all: $(CAT_EXECUTABLE) 
 
 # ==== DEFAULT ====
 %.o: %.c
@@ -22,17 +28,22 @@ all: $(CAT_EXECUTABLE) $(GREP_EXECUTABLE)
 $(CAT_EXECUTABLE): $(COMMON_OBJECTIVE) $(CAT_OBJECTIVE)
 	$(CC) $(CFLAGS) $(COMMON_OBJECTIVE) $(CAT_OBJECTIVE) -o $@
 
-# ==== GREP ====
-$(GREP_EXECUTABLE): $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE)
-	$(CC) $(CFLAGS) $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE) -o $@
-
 # ==== CLEAN ====
 clean_cat:
 	rm -rf $(CAT_EXECUTABLE) $(CAT_OBJECTIVE)
 
-clean_grep:
-	rm -rf $(GREP_EXECUTABLE) $(GREP_OBJECTIVE)
-
-clean_all: clean_cat clean_grep
+clean_all: clean_cat
 	rm -rf $(COMMON_OBJECTIVE)
 
+# rebuild
+rebuild: clean_all all
+
+# tools
+style:
+	$(FORMATER) -n ./*.c ./*.h
+
+format:
+	$(FORMATER) -i ./*.c ./*.h 
+
+leak_check: $(CAT_EXECUTABLE)
+	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(CAT_EXECUTABLE) $(TEST_FILES)
