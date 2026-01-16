@@ -1,6 +1,8 @@
 #include "process.h"
 
+#include <regex.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../common/error.h"
 #include "../common/file_reader.h"
@@ -42,8 +44,10 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
     // open file
     const char* filename = filenames[file_index];
     if (open_file(state.file_ctx, filename)) {
-      print_file_error("run_grep", filename);
-      return 2;
+      if (!flags->s) {
+        print_file_error("run_grep", filename);
+      }
+      continue;
     }
 
     // read line
@@ -56,13 +60,46 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
       int exec_result = execute_regex(&regex_state);
       if (exec_result) {
         state.lines_matched_counter++;
-        output_line_result(&state);
+
+        if (flags->o && !flags->v && !flags->c && !flags->l) {
+          size_t search_pos = 0;
+          regmatch_t match;
+          while (find_next_match(&regex_state, line, search_pos, &match) == 0) {
+            size_t match_start = match.rm_so;
+            size_t match_end = match.rm_eo;
+            size_t match_length = match_end - match_start;
+
+            if (match_length > 0) {
+              output_match_only(&state, line + match_start, match_length);
+            }
+
+            if (match_end > match_start) {
+              search_pos = match_end;
+            } else {
+              search_pos++;
+            }
+
+            if (match_length == 0) {
+              break;
+            }
+          }
+        } else {
+          output_line_result(&state);
+        }
       }
       state.line_counter++;
     }
     if (read_line_result < 0) {
-      print_file_error("run_grep", filename);
-      return 3;
+      if (!flags->s) {
+        print_file_error("run_grep", filename);
+      }
+      free(line);
+      if (close_file(state.file_ctx)) {
+        if (!flags->s) {
+          print_file_error("run_grep", filename);
+        }
+      }
+      continue;
     }
 
     output_file_result(&state);
@@ -70,8 +107,9 @@ int run_grep(GrepFlags* flags, const char* pattern, char* const* filenames,
     // clear
     free(line);
     if (close_file(state.file_ctx)) {
-      print_file_error("run_grep", filename);
-      return 4;
+      if (!flags->s) {
+        print_file_error("run_grep", filename);
+      }
     }
   }
 

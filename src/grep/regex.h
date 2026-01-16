@@ -22,5 +22,7 @@ extern const char* combine_patterns(const char** patterns,
 extern int compile_regex(RegexState* regex_state);
 extern bool execute_regex(RegexState* regex_state);
 extern void free_regex(RegexState* regex_state);
+extern int find_next_match(RegexState* regex_state, const char* line,
+                           size_t start_pos, regmatch_t* match);
 
 #endif

@@ -12,6 +12,10 @@ typedef struct {
   bool c;
   bool l;
   bool n;
+  bool h;
+  bool s;
+  bool f;
+  bool o;
 } GrepFlags;
 
 typedef struct {
