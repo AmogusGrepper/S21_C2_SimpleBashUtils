@@ -9,29 +9,33 @@ int open_file(FileContext* ctx, const char* filename) {
     return 1;
   }
   ctx->filename = filename;
+  ctx->line_capacity = 0;
   return 0;
 }
 
 int read_line(FileContext* ctx, char** line) {
-  static size_t cap = 0;
-  ssize_t char_readed = getline(line, &cap, ctx->fptr);
+  ssize_t char_readed = getline(line, &ctx->line_capacity, ctx->fptr);
+  int result = 1;
   if (char_readed == -1) {
     if (feof(ctx->fptr)) {
-      return 0;
+      result = 0;
     } else {
       perror("read_line");
-      return -1;
+      result = -1;
     }
   }
-  return 1;
+  return result;
 }
 
 int close_file(FileContext* ctx) {
+  int result = 0;
   if (fclose(ctx->fptr)) {
     perror("close_file");
-    return EOF;
+    result = EOF;
+  } else {
+    ctx->fptr = NULL;
+    ctx->filename = NULL;
+    ctx->line_capacity = 0;
   }
-  ctx->fptr = NULL;
-  ctx->filename = NULL;
-  return 0;
+  return result;
 }

@@ -6,6 +6,7 @@
 typedef struct {
   FILE* fptr;
   const char* filename;
+  size_t line_capacity;
 } FileContext;
 
 /**

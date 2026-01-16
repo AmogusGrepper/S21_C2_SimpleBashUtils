@@ -22,6 +22,76 @@ const struct option long_grep_options[] = {
     {0, 0, 0, 0},
 };
 
+static bool add_pattern_to_result(GrepParseResult* result,
+                                  const char* pattern) {
+  result->patterns =
+      realloc(result->patterns, sizeof(char*) * (result->patterns_amount + 1));
+  if (result->patterns == NULL) {
+    print_usage_error("add_pattern_to_result",
+                      "Error during memory allocation for result.patterns");
+    return false;
+  }
+  result->patterns[result->patterns_amount] = malloc(strlen(pattern) + 1);
+  if (result->patterns[result->patterns_amount] == NULL) {
+    print_usage_error("add_pattern_to_result",
+                      "Error during memory allocation for pattern");
+    return false;
+  }
+  strcpy((char*)result->patterns[result->patterns_amount], pattern);
+  result->patterns_amount++;
+  return true;
+}
+
+static void parse_pattern_from_file(GrepParseResult* result,
+                                    const char* filename) {
+  FILE* pattern_file = fopen(filename, "r");
+  bool file_opened = (pattern_file != NULL);
+
+  if (file_opened) {
+    char* line = NULL;
+    size_t cap = 0;
+    ssize_t read;
+    bool read_success = true;
+
+    while ((read = getline(&line, &cap, pattern_file)) != -1 && read_success) {
+      if (read > 0 && line[read - 1] == '\n') {
+        line[read - 1] = '\0';
+        read--;
+      }
+
+      read_success = add_pattern_to_result(result, line);
+    }
+    free(line);
+    fclose(pattern_file);
+  } else {
+    print_file_error("parse_pattern_from_file", filename);
+  }
+}
+
+static void parse_default_pattern(GrepParseResult* result, int* argc,
+                                  char* const* argv) {
+  bool pattern_available = (optind < *argc);
+
+  if (pattern_available) {
+    result->patterns = malloc(sizeof(char*));
+    if (result->patterns == NULL) {
+      print_usage_error("parse_default_pattern",
+                        "Error during memory allocation for result.patterns");
+    } else {
+      result->patterns[0] = malloc(strlen(argv[optind]) + 1);
+      if (result->patterns[0] == NULL) {
+        print_usage_error("parse_default_pattern",
+                          "Error during memory allocation for pattern");
+      } else {
+        strcpy((char*)result->patterns[0], argv[optind++]);
+        result->patterns_amount = 1;
+      }
+    }
+  } else {
+    print_usage_error("parse_default_pattern", "Missing PATTERN");
+  }
+}
+
 GrepParseResult parse_grep_flags(int* argc, char* const* argv,
                                  GrepFlags* flags) {
   GrepParseResult result = {
@@ -35,26 +105,10 @@ GrepParseResult parse_grep_flags(int* argc, char* const* argv,
   while ((opt = getopt_long(*argc, argv, short_grep_options, long_grep_options,
                             0)) != -1) {
     switch (opt) {
-      case 'e': {
+      case 'e':
         result.flags->e = true;
-        result.patterns = realloc(result.patterns,
-                                  sizeof(char*) * (result.patterns_amount + 1));
-        if (result.patterns == NULL) {
-          print_usage_error(
-              "parse_grep_flags",
-              "Error during memory allocation for result.patterns");
-          break;
-        }
-        result.patterns[result.patterns_amount] = malloc(strlen(optarg) + 1);
-        if (result.patterns[result.patterns_amount] == NULL) {
-          print_usage_error("parse_grep_flags",
-                            "Error during memory allocation for pattern");
-          break;
-        }
-        strcpy((char*)result.patterns[result.patterns_amount], optarg);
-        result.patterns_amount++;
+        add_pattern_to_result(&result, optarg);
         break;
-      }
 
       case 'i':
         result.flags->i = true;
@@ -84,48 +138,10 @@ GrepParseResult parse_grep_flags(int* argc, char* const* argv,
         result.flags->s = true;
         break;
 
-      case 'f': {
+      case 'f':
         result.flags->f = true;
-        FILE* pattern_file = fopen(optarg, "r");
-        if (pattern_file == NULL) {
-          print_file_error("parse_grep_flags", optarg);
-          break;
-        }
-
-        char* line = NULL;
-        size_t cap = 0;
-        ssize_t read;
-        while ((read = getline(&line, &cap, pattern_file)) != -1) {
-          if (read > 0 && line[read - 1] == '\n') {
-            line[read - 1] = '\0';
-            read--;
-          }
-
-          result.patterns = realloc(
-              result.patterns, sizeof(char*) * (result.patterns_amount + 1));
-          if (result.patterns == NULL) {
-            print_usage_error(
-                "parse_grep_flags",
-                "Error during memory allocation for result.patterns");
-            free(line);
-            fclose(pattern_file);
-            break;
-          }
-          result.patterns[result.patterns_amount] = malloc(strlen(line) + 1);
-          if (result.patterns[result.patterns_amount] == NULL) {
-            print_usage_error("parse_grep_flags",
-                              "Error during memory allocation for pattern");
-            free(line);
-            fclose(pattern_file);
-            break;
-          }
-          strcpy((char*)result.patterns[result.patterns_amount], line);
-          result.patterns_amount++;
-        }
-        free(line);
-        fclose(pattern_file);
+        parse_pattern_from_file(&result, optarg);
         break;
-      }
 
       case 'o':
         result.flags->o = true;
@@ -138,22 +154,7 @@ GrepParseResult parse_grep_flags(int* argc, char* const* argv,
   }
 
   if (result.patterns_amount == 0) {
-    if (optind >= *argc) {
-      print_usage_error("parse_grep_flags", "Missing PATTERN");
-    }
-    result.patterns = malloc(sizeof(char*));
-    if (result.patterns == NULL) {
-      print_usage_error("parse_grep_flags",
-                        "Error during memory allocation for result.patterns");
-    }
-    result.patterns[0] = malloc(strlen(argv[optind]) + 1);
-    if (result.patterns[0] == NULL) {
-      print_usage_error("parse_grep_flags",
-                        "Error during memory allocation for pattern");
-    } else {
-      strcpy((char*)result.patterns[0], argv[optind++]);
-      result.patterns_amount = 1;
-    }
+    parse_default_pattern(&result, argc, argv);
   }
 
   return result;
