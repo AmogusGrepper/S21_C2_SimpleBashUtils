@@ -1,0 +1,2 @@
+This is a very long line that contains many characters and should test how the implementation handles long lines without breaking or causing issues. It continues for a while to ensure we test edge cases with line length. Let's add some more text here to make it even longer. And more. And more. And more. And more. And more. And more. And more.
+End

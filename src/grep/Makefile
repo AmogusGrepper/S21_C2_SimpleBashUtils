@@ -1,5 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -O2 -g --std=gnu11
+CLEAKSFLAGS=-fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=unreachable
 
 COMMON_SOURCE=../common/file_reader.c ../common/utils.c
 COMMON_OBJECTIVE=$(COMMON_SOURCE:.c=.o)
@@ -26,7 +27,7 @@ all: $(GREP_EXECUTABLE)
 
 # ==== GREP ====
 $(GREP_EXECUTABLE): $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE)
-	$(CC) $(CFLAGS) $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE) -o $@
+	$(CC) $(CFLAGS) $(CLEAKSFLAGS) $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE) -o $@
 
 # ==== CLEAN ====
 clean_grep:
@@ -47,3 +48,6 @@ format:
 
 leak_check: $(GREP_EXECUTABLE)
 	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(GREP_EXECUTABLE) -e "a" $(TEST_FILES)
+
+cppcheck: 
+	cppcheck --enable=all --suppress=missingIncludeSystem .

@@ -1,0 +1,7 @@
+Line with BEL^G
+Line with BS^H
+Line with TAB	and spaces
+Line with LF^J
+Line with CR^M
+Line with ESC^[
+Line with DEL^?

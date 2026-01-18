@@ -1,0 +1,11 @@
+First line
+
+	Line with leading tab
+
+Line with trailing spaces    
+	
+Line after double empty
+
+	Line with tab and trailing space    
+Normal line
+Last line

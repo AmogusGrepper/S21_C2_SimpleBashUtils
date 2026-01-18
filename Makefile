@@ -1,5 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -Werror -Wextra -O2 -g --std=gnu11
+CLEAKSFLAGS=-fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=unreachable
 
 COMMON_SOURCE=src/common/file_reader.c src/common/utils.c
 COMMON_OBJECTIVE=$(COMMON_SOURCE:.c=.o)
@@ -28,11 +29,11 @@ all: $(CAT_EXECUTABLE) $(GREP_EXECUTABLE)
 
 # ==== CAT ====
 $(CAT_EXECUTABLE): $(COMMON_OBJECTIVE) $(CAT_OBJECTIVE)
-	$(CC) $(CFLAGS) $(COMMON_OBJECTIVE) $(CAT_OBJECTIVE) -o $@
+	$(CC) $(CFLAGS) $(CLEAKSFLAGS) $(COMMON_OBJECTIVE) $(CAT_OBJECTIVE) -o $@
 
 # ==== GREP ====
 $(GREP_EXECUTABLE): $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE)
-	$(CC) $(CFLAGS) $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE) -o $@
+	$(CC) $(CFLAGS) $(CLEAKSFLAGS) $(COMMON_OBJECTIVE) $(GREP_OBJECTIVE) -o $@
 
 # ==== CLEAN ====
 clean_cat:

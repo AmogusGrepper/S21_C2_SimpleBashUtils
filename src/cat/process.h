@@ -12,6 +12,7 @@ typedef struct {
   size_t line_counter;
   size_t nonblank_counter;
   bool prev_empty;
+  bool line_started;
 
   const char* line;
 } CatState;

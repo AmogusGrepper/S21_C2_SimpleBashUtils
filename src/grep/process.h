@@ -1,6 +1,7 @@
 #ifndef GREP_PROCESS_H_
 #define GREP_PROCESS_H_
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include "../common/file_reader.h"
@@ -18,6 +19,8 @@ typedef struct {
   size_t line_counter;
 
   size_t total_files;
+  size_t total_matches;
+  bool file_error_occurred;
 } GrepState;
 
 extern int run_grep(GrepFlags* flags, const char* pattern,

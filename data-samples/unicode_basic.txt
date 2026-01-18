@@ -1,0 +1,3 @@
+Normal ASCII line
+Line with UTF-8: café, naïve, résumé
+More ASCII text

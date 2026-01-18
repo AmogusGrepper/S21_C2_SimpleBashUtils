@@ -68,7 +68,7 @@ static void parse_pattern_from_file(GrepParseResult* result,
   }
 }
 
-static void parse_default_pattern(GrepParseResult* result, int* argc,
+static void parse_default_pattern(GrepParseResult* result, const int* argc,
                                   char* const* argv) {
   bool pattern_available = (optind < *argc);
 
@@ -98,6 +98,7 @@ GrepParseResult parse_grep_flags(int* argc, char* const* argv,
       .flags = flags,
       .patterns = NULL,
       .patterns_amount = 0,
+      .parse_error = false,
   };
 
   int opt = 0;

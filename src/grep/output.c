@@ -18,10 +18,10 @@ void output_line_result(GrepState* state) {
 
   if (state->flags->n) {
     if (print_filename) {
-      printf("%s:%ld:%s", state->file_ctx->filename, state->line_counter,
+      printf("%s:%zu:%s", state->file_ctx->filename, state->line_counter,
              state->line);
     } else {
-      printf("%ld:%s", state->line_counter, state->line);
+      printf("%zu:%s", state->line_counter, state->line);
     }
   } else {
     if (print_filename) {
@@ -40,10 +40,10 @@ void output_file_result(GrepState* state) {
   } else if (state->flags->c) {
     bool print_filename = (state->total_files > 1) && !state->flags->h;
     if (print_filename) {
-      printf("%s:%ld\n", state->file_ctx->filename,
+      printf("%s:%zu\n", state->file_ctx->filename,
              state->lines_matched_counter);
     } else {
-      printf("%ld\n", state->lines_matched_counter);
+      printf("%zu\n", state->lines_matched_counter);
     }
   }
 }
@@ -54,9 +54,9 @@ void output_match_only(GrepState* state, const char* match_start,
 
   if (state->flags->n) {
     if (print_filename) {
-      printf("%s:%ld:", state->file_ctx->filename, state->line_counter);
+      printf("%s:%zu:", state->file_ctx->filename, state->line_counter);
     } else {
-      printf("%ld:", state->line_counter);
+      printf("%zu:", state->line_counter);
     }
   } else {
     if (print_filename) {

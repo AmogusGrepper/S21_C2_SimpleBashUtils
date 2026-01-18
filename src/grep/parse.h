@@ -23,6 +23,7 @@ typedef struct {
 
   const char** patterns;
   size_t patterns_amount;
+  bool parse_error;
 } GrepParseResult;
 
 extern const char* short_grep_options;

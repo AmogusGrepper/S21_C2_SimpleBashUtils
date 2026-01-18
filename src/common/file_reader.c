@@ -4,13 +4,14 @@
 
 int open_file(FileContext* ctx, const char* filename) {
   ctx->fptr = fopen(filename, "r");
+  int result = 0;
   if (!ctx->fptr) {
-    perror("open_file");
-    return 1;
+    result = 1;
+  } else {
+    ctx->filename = filename;
+    ctx->line_capacity = 0;
   }
-  ctx->filename = filename;
-  ctx->line_capacity = 0;
-  return 0;
+  return result;
 }
 
 int read_line(FileContext* ctx, char** line) {
@@ -20,7 +21,6 @@ int read_line(FileContext* ctx, char** line) {
     if (feof(ctx->fptr)) {
       result = 0;
     } else {
-      perror("read_line");
       result = -1;
     }
   }
@@ -30,7 +30,6 @@ int read_line(FileContext* ctx, char** line) {
 int close_file(FileContext* ctx) {
   int result = 0;
   if (fclose(ctx->fptr)) {
-    perror("close_file");
     result = EOF;
   } else {
     ctx->fptr = NULL;

@@ -1,0 +1,5 @@
+Line with trailing spaces    
+Line with trailing tabs	
+Line with both trailing spaces and tabs	  	  
+Normal line
+Line with just spaces          
