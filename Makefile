@@ -64,4 +64,5 @@ mini_verter:
 	./mini_verter.sh
 
 test_all: format style rebuild leak_check_cat leak_check_grep mini_verter
-	./test_cat_comprehensive.sh ./test_grep_comprehensive.sh
+	./test_cat_comprehensive.sh
+	./test_grep_comprehensive.sh
