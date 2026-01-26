@@ -47,3 +47,6 @@ format:
 
 leak_check: $(CAT_EXECUTABLE)
 	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(CAT_EXECUTABLE) $(TEST_FILES)
+
+cppcheck: 
+	cppcheck --enable=all --suppress=missingIncludeSystem .

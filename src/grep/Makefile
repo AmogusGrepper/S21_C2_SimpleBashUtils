@@ -47,3 +47,6 @@ format:
 
 leak_check: $(GREP_EXECUTABLE)
 	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(GREP_EXECUTABLE) -e "a" $(TEST_FILES)
+
+cppcheck: 
+	cppcheck --enable=all --suppress=missingIncludeSystem .

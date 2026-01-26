@@ -12,6 +12,10 @@ typedef struct {
   bool c;
   bool l;
   bool n;
+  bool h;
+  bool s;
+  bool f;
+  bool o;
 } GrepFlags;
 
 typedef struct {
@@ -19,6 +23,7 @@ typedef struct {
 
   const char** patterns;
   size_t patterns_amount;
+  bool parse_error;
 } GrepParseResult;
 
 extern const char* short_grep_options;

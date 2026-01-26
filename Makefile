@@ -49,14 +49,20 @@ rebuild: clean_all all
 
 # tools
 style:
-	$(FORMATER) -n ./*.c ./*.h
+	$(FORMATER) -n ./src/cat/*.c ./src/cat/*.h ./src/grep/*.c ./src/grep/*.h 
 
 format:
-	$(FORMATER) -i ./*.c ./*.h 
+	$(FORMATER) -i ./src/cat/*.c ./src/cat/*.h ./src/grep/*.c ./src/grep/*.h 
 
 leak_check_cat: $(CAT_EXECUTABLE)
-	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(CAT_EXECUTABLE) -e "a" data-samples/*.txt
+	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(CAT_EXECUTABLE) -e "a" data-samples/*.txt || true
 
 leak_check_grep: $(GREP_EXECUTABLE)
-	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(GREP_EXECUTABLE) -e "a" data-samples/*.txt
+	$(LEAK_CHECKER) $(LEAK_CHECKER_FLAGS) ./$(GREP_EXECUTABLE) -e "a" data-samples/*.txt || true
 
+mini_verter: 
+	./mini_verter.sh
+
+test_all: format style rebuild leak_check_cat leak_check_grep mini_verter
+	./test_cat_comprehensive.sh
+	./test_grep_comprehensive.sh

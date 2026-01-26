@@ -60,3 +60,22 @@ void free_regex(RegexState* regex_state) {
   free((void*)regex_state->pattern);
   regfree(regex_state->regex);
 }
+
+int find_next_match(RegexState* regex_state, const char* line, size_t start_pos,
+                    regmatch_t* match) {
+  regmatch_t pmatch;
+  int flags = 0;
+  if (start_pos > 0) {
+    flags = REG_NOTBOL;
+  }
+
+  int result = regexec(regex_state->regex, line + start_pos, 1, &pmatch, flags);
+  if (result != 0) {
+    return result;
+  }
+
+  match->rm_so = pmatch.rm_so + start_pos;
+  match->rm_eo = pmatch.rm_eo + start_pos;
+
+  return 0;
+}

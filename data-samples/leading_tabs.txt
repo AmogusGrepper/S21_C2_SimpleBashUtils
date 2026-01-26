@@ -1,0 +1,5 @@
+	Line starting with tab
+		Line starting with two tabs
+			Line starting with three tabs
+Normal line
+	Mixed: tab then text

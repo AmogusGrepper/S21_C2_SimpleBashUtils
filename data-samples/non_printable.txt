@@ -1,0 +1,5 @@
+Normal line
+Line with control char
+Line ends with space    
+Line with tab	here
+Normal line again

@@ -6,9 +6,12 @@
 
 const char* short_cat_options = "benst";
 const struct option long_cat_options[] = {
-    {"b", no_argument, 0, 'b'}, {"e", no_argument, 0, 'e'},
-    {"n", no_argument, 0, 'n'}, {"s", no_argument, 0, 's'},
-    {"t", no_argument, 0, 't'}, {0, 0, 0, 0},
+    {"number-nonblank", no_argument, 0, 'b'},
+    {"show-ends", no_argument, 0, 'e'},
+    {"number", no_argument, 0, 'n'},
+    {"squeeze-blank", no_argument, 0, 's'},
+    {"show-tabs", no_argument, 0, 't'},
+    {0, 0, 0, 0},
 };
 
 CatFlags parse_cat_flags(int* argc, char* const* argv) {
